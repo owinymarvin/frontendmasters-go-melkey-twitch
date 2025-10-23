@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/app"
-	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/routes"
+	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/internal/app"
+	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/internal/routes"
 )
 
 func main() {

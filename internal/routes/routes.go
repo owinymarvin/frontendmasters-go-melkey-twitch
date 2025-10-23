@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/app"
+	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/internal/app"
 )
 
 func SetupRoutes(app *app.Application) *chi.Mux {
