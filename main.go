@@ -12,13 +12,14 @@ import (
 
 func main() {
 	var port int
-	flag.IntVar(&port, "port", 8081, "GO backend server port")
+	flag.IntVar(&port, "port", 8080, "GO backend server port")
 	flag.Parse()
 
 	app, err := app.NewApplication()
 	if err != nil {
 		panic(err)
 	}
+	defer app.DB.Close()
 
 	r := routes.SetupRoutes(app)
 
