@@ -9,6 +9,7 @@ import (
 
 	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/internal/api"
 	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/internal/store"
+	"github.com/owinymarvin/frontendmasters-go-melkey-twitch/migrations"
 )
 
 type Application struct {
@@ -22,6 +23,12 @@ func NewApplication() (*Application, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	err = store.MigrateFS(pgDB, migrations.FS, ".")
+	if err != nil {
+		panic(fmt.Sprintf("migrations failed, DB failed: %v", err))
+	}
+
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
 	// our stores will go here
