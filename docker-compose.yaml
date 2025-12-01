@@ -3,7 +3,7 @@ services:
     container_name: "workoutDB"
     image: postgres:17
     volumes:
-      - "./database/postgres-data:/var/lib/postgresql/data:rw"
+      - "./database/postgres-data:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
     environment:
@@ -11,3 +11,25 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
     restart: unless-stopped
+    networks:
+      - app-network
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:latest
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - "./pgadmin-data:/var/lib/pgadmin"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
