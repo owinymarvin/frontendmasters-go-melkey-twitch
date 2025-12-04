@@ -2,10 +2,11 @@ package store
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type Workout struct {
-	ID              int            `json:"id"`
+	ID              int64          `json:"id"`
 	Title           string         `json:"title"`
 	Description     string         `json:"description"`
 	DurationMinutes int            `json:"duration_minutes"`
@@ -76,18 +77,18 @@ func (pg *PostgresWorkoutStore) CreateWorkout(workout *Workout) (*Workout, error
 func (pg *PostgresWorkoutStore) GetWorkoutByID(id int64) (*Workout, error) {
 	workout := &Workout{}
 	query := `
-	SELECT id,title,description,duration_minutes,calories_burned
+	SELECT id, title, description, duration_minutes, calories_burned
 	FROM workouts
 	WHERE id = $1
 	`
 	err := pg.db.QueryRow(query, id).Scan(&workout.ID, &workout.Title, &workout.Description, &workout.DurationMinutes, &workout.CaloriesBurned)
 	if err == sql.ErrNoRows {
-		return nil, nil
+		fmt.Println("SQL query error, no rows found. ")
+		return nil, err
 	}
 	if err != nil {
 		return nil, err
 	}
-
 	// to get the entries of the workout now
 	entryQuery := `
 	SELECT id, exercise_name, sets, reps, duration_seconds, weight, notes, order_index
